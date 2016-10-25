@@ -1,4 +1,4 @@
-package com.codepath.apps.restclienttemplate;
+package com.huyentran.tweets;
 
 import com.raizlabs.android.dbflow.annotation.Database;
 
