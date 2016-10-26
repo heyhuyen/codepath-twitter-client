@@ -11,12 +11,14 @@ import com.huyentran.tweets.TwitterApplication;
 import com.huyentran.tweets.TwitterClient;
 import com.huyentran.tweets.adapters.TweetsArrayAdapter;
 import com.huyentran.tweets.models.Tweet;
+import com.huyentran.tweets.utils.EndlessRecyclerViewScrollListener;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -27,6 +29,8 @@ public class TimelineActivity extends AppCompatActivity {
     private TweetsArrayAdapter tweetsAdapter;
     private RecyclerView rvTweets;
 
+    long curMaxId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +38,8 @@ public class TimelineActivity extends AppCompatActivity {
 
         setupViews();
         this.client = TwitterApplication.getRestClient();
-        populateTimeline();
+        this.curMaxId = -1;
+        populateTimeline(this.curMaxId);
     }
 
     private void setupViews() {
@@ -42,15 +47,24 @@ public class TimelineActivity extends AppCompatActivity {
         this.tweets = new ArrayList<>();
         this.tweetsAdapter = new TweetsArrayAdapter(this, this.tweets);
         this.rvTweets.setAdapter(this.tweetsAdapter);
-        this.rvTweets.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        this.rvTweets.setLayoutManager(layoutManager);
+        this.rvTweets.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                populateTimeline(curMaxId);
+            }
+        });
     }
 
-    private void populateTimeline() {
-        this.client.getHomeTimeline(new JsonHttpResponseHandler() {
+    private void populateTimeline(long maxId) {
+        this.client.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 Log.d("ON SUCCESS", response.toString());
-                tweets.addAll(Tweet.fromJsonArray(response));
+                List<Tweet> tweetResults = Tweet.fromJsonArray(response);
+                tweets.addAll(tweetResults);
+                curMaxId = tweetResults.get(tweetResults.size() - 1).getUid();
                 tweetsAdapter.notifyDataSetChanged();
             }
 
