@@ -31,12 +31,22 @@
         android:id="@+id/tvScreenName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/tvUserName"
         android:layout_toEndOf="@+id/tvUserName"
+        android:layout_marginRight="@dimen/margin"
         android:textStyle="italic"
         android:textColor="@color/colorTextSecondary"
         tools:text="\@screenname"/>
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/colorTextSecondary"
+        tools:text="7h"/>
 
     <TextView
         android:id="@+id/tvBody"

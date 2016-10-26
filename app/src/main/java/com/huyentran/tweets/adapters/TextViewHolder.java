@@ -14,6 +14,7 @@ public class TextViewHolder extends RecyclerView.ViewHolder {
     private ImageView ivProfilePic;
     private TextView tvUserName;
     private TextView tvScreenName;
+    private TextView tvTime;
     private TextView tvBody;
 
     public TextViewHolder(View itemView) {
@@ -21,6 +22,7 @@ public class TextViewHolder extends RecyclerView.ViewHolder {
         this.ivProfilePic = (ImageView) itemView.findViewById(R.id.ivProfilePic);
         this.tvUserName = (TextView) itemView.findViewById(R.id.tvUserName);
         this.tvScreenName = (TextView) itemView.findViewById(R.id.tvScreenName);
+        this.tvTime = (TextView) itemView.findViewById(R.id.tvTime);
         this.tvBody = (TextView) itemView.findViewById(R.id.tvBody);
     }
 
@@ -46,6 +48,14 @@ public class TextViewHolder extends RecyclerView.ViewHolder {
 
     public void setTvScreenName(TextView tvScreenName) {
         this.tvScreenName = tvScreenName;
+    }
+
+    public TextView getTvTime() {
+        return this.tvTime;
+    }
+
+    public void setTime(TextView tvTime) {
+        this.tvTime = tvTime;
     }
 
     public TextView getTvBody() {

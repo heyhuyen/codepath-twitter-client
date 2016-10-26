@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.huyentran.tweets.R;
 import com.huyentran.tweets.models.Tweet;
 import com.huyentran.tweets.models.User;
+import com.huyentran.tweets.utils.TweetDateUtils;
 
 import java.util.List;
 
@@ -81,6 +82,9 @@ public class TweetsArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         TextView tvScreenName = viewHolder.getTvScreenName();
         tvScreenName.setText(user.getScreenName());
+
+        TextView tvTime = viewHolder.getTvTime();
+        tvTime.setText(TweetDateUtils.getRelativeTimeAgo(tweet.getCreatedAt()));
 
         TextView tvBody = viewHolder.getTvBody();
         tvBody.setText(tweet.getBody());
