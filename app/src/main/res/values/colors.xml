@@ -4,7 +4,7 @@
     <!--<color name="colorPrimaryDark">#388E3C</color>-->
     <!--<color name="colorPrimaryLight">#C8E6C9</color>-->
     <!--<color name="colorAccent">#6DCAEC</color>-->
-    <!--<color name="colorTransparent">#00000000</color>-->
+    <color name="colorTransparent">#00000000</color>
     <color name="colorTextPrimary">@color/black</color>
     <color name="colorTextSecondary">@color/darkGray</color>
     <!--<color name="colorIcons">#FFFFFF</color>-->

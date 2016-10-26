@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!-- App -->
     <string name="app_name">Tweety Bird</string>
-    <string name="title_activity_timeline">Home Timeline</string>
+
+    <!-- Login -->
     <string name="login_label">Connect to Twitter</string>
+
+    <!-- Timeline -->
+    <string name="title_activity_timeline">Home Timeline</string>
+    <string name="action_compose">Compose</string>
+
+    <!-- Compose -->
+    <string name="compose_title">New Tweet</string>
+    <string name="tweet">Tweet</string>
+    <string name="tweet_hint">What\'s happening?</string>
 
 </resources>

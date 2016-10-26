@@ -2,16 +2,22 @@ package com.huyentran.tweets.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 /**
  * User model.
  */
+@Parcel
 public class User {
 
     private long uid;
     private String name;
     private String screenName;
     private String profileImageUrl;
+
+    public User() {
+        // empty constructor for Parceler
+    }
 
     public static User fromJson(JSONObject json) {
         User user = new User();

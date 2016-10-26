@@ -16,12 +16,25 @@ public class TwitterClient extends OAuthBaseClient {
     public static final String REST_CONSUMER_SECRET = "FLBYJFQwGtxSssJWSWoQkWynjuxZOvl1vnNH6e3pnXxNQs2uBQ";
     public static final String REST_CALLBACK_URL = "oauth://cptweetsbyht";
 
+    private static final String API_VERIFY_CREDS = "account/verify_credentials.json";
+
     private static final String API_HOME_TIMELINE = "statuses/home_timeline.json";
     private static final int DEFAULT_COUNT = 25;
     private static final int DEFAULT_SINCE_ID = 1;
 
+    private static final String API_COMPOSE = "statuses/update.json";
+
     public TwitterClient(Context context) {
         super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
+    }
+
+    public void getAuthenticatedUser(AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl(API_VERIFY_CREDS);
+        RequestParams params = new RequestParams();
+        params.put("include_entities", false);
+        params.put("skip_status", true);
+        params.put("include_email", false);
+        this.client.get(apiUrl, params, handler);
     }
 
     public void getHomeTimeline(long maxId, AsyncHttpResponseHandler handler) {
@@ -34,4 +47,12 @@ public class TwitterClient extends OAuthBaseClient {
         }
         this.client.get(apiUrl, params, handler);
     }
+
+    public void postUpdate(String body, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl(API_COMPOSE);
+        RequestParams params = new RequestParams();
+        params.put("status", body);
+        this.client.post(apiUrl, params, handler);
+    }
+
 }

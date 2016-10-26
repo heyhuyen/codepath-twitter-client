@@ -3,18 +3,24 @@ package com.huyentran.tweets.models;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 
 /**
  * Tweet model.
  */
+@Parcel
 public class Tweet {
 
     private long uid;
     private String body;
     private String createdAt;
     private User user;
+
+    public Tweet() {
+        // empty constructor for Parceler
+    }
 
     public static Tweet fromJson(JSONObject jsonObject) {
         Tweet tweet = new Tweet();
