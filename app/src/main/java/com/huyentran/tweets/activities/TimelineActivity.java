@@ -1,5 +1,6 @@
 package com.huyentran.tweets.activities;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,6 +35,8 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
     private ArrayList<Tweet> tweets;
     private TweetsArrayAdapter tweetsAdapter;
     private RecyclerView rvTweets;
+    private SwipeRefreshLayout swipeContainer;
+
     private User user;
     long curMaxId;
 
@@ -44,6 +47,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        this.tweets = new ArrayList<>();
         setupViews();
         this.client = TwitterApplication.getRestClient();
         getAuthenticatedUser();
@@ -52,8 +56,8 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
     }
 
     private void setupViews() {
+        // recycler view + adapter
         this.rvTweets = (RecyclerView) findViewById(R.id.rvTweets);
-        this.tweets = new ArrayList<>();
         this.tweetsAdapter = new TweetsArrayAdapter(this, this.tweets);
         this.rvTweets.setAdapter(this.tweetsAdapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -64,6 +68,16 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
                 populateTimeline(curMaxId);
             }
         });
+
+        // pull to refresh swipe container
+        this.swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        this.swipeContainer.setOnRefreshListener(() -> {
+            populateTimeline(curMaxId);
+        });
+        this.swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
     }
 
     private void getAuthenticatedUser() {
@@ -91,6 +105,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
                 tweets.addAll(tweetResults);
                 curMaxId = tweetResults.get(tweetResults.size() - 1).getUid();
                 tweetsAdapter.notifyDataSetChanged();
+                swipeContainer.setRefreshing(false);
             }
 
             @Override
