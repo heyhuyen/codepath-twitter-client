@@ -1,8 +1,11 @@
 package com.huyentran.tweets.fragment;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,8 +37,11 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
  */
 public class ComposeFragment extends DialogFragment {
 
+    private static final int MAX_CHAR_COUNT = 140;
+
     private User user;
     private EditText etBody;
+    private TextView tvCharCount;
 
     private ComposeFragmentListener listener;
     public interface ComposeFragmentListener {
@@ -83,7 +89,44 @@ public class ComposeFragment extends DialogFragment {
         }
         tvUserName.setText(this.user.getName());
         tvScreenName.setText(this.user.getScreenName());
-        etBody = (EditText) view.findViewById(R.id.etBody);
+        this.etBody = (EditText) view.findViewById(R.id.etBody);
+        this.tvCharCount = (TextView) view.findViewById(R.id.tvCharCount);
+        this.etBody.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Fires right as the text is being changed (even supplies the range of text)
+                int charsLeft = MAX_CHAR_COUNT - s.length();
+                tvCharCount.setText(String.valueOf(charsLeft));
+                int colorRed, colorNormal, colorLine;
+                if (android.os.Build.VERSION.SDK_INT < 23) {
+                    colorRed = getResources().getColor(android.R.color.holo_red_dark);
+                    colorNormal = getResources().getColor(R.color.colorTextSecondary);
+                    colorLine = getResources().getColor(R.color.colorAccent);
+                } else {
+                    colorRed = getResources().getColor(android.R.color.holo_blue_light, null);
+                    colorNormal = getResources().getColor(R.color.colorTextSecondary, null);
+                    colorLine = getResources().getColor(R.color.colorAccent, null);
+                }
+                if (charsLeft < 0) {
+                    tvCharCount.setTextColor(colorRed);
+                    etBody.getBackground().setColorFilter(colorRed, PorterDuff.Mode.SRC_ATOP);
+                } else {
+                    tvCharCount.setTextColor(colorNormal);
+                    etBody.getBackground().setColorFilter(colorLine, PorterDuff.Mode.SRC_ATOP);
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+                // Fires right before text is changing
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Fires right after the text has changed
+            }
+        });
         setupButtons(view);
     }
 
