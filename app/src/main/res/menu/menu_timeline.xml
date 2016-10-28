@@ -4,10 +4,4 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.huyentran.tweets.activities.TimelineActivity">
 
-    <item
-        android:id="@+id/miCompose"
-        android:icon="@drawable/ic_launcher"
-        android:title="@string/action_compose"
-        app:showAsAction="always"
-        android:orderInCategory="10" />
 </menu>

@@ -32,6 +32,8 @@ import org.parceler.Parcels;
 import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
+import static com.huyentran.tweets.R.id.btnCancel;
+
 /**
  * Modal overlay for composing tweets.
  */
@@ -42,6 +44,8 @@ public class ComposeFragment extends DialogFragment {
     private User user;
     private EditText etBody;
     private TextView tvCharCount;
+    private ImageButton btnCancel;
+    private Button btnTweet;
 
     private ComposeFragmentListener listener;
     public interface ComposeFragmentListener {
@@ -91,6 +95,8 @@ public class ComposeFragment extends DialogFragment {
         tvScreenName.setText(this.user.getScreenName());
         this.etBody = (EditText) view.findViewById(R.id.etBody);
         this.tvCharCount = (TextView) view.findViewById(R.id.tvCharCount);
+        this.btnTweet = (Button) view.findViewById(R.id.btnTweet);
+        this.btnCancel = (ImageButton) view.findViewById(R.id.btnCancel);
         this.etBody.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -110,9 +116,11 @@ public class ComposeFragment extends DialogFragment {
                 if (charsLeft < 0) {
                     tvCharCount.setTextColor(colorRed);
                     etBody.getBackground().setColorFilter(colorRed, PorterDuff.Mode.SRC_ATOP);
+                    btnTweet.setEnabled(false);
                 } else {
                     tvCharCount.setTextColor(colorNormal);
                     etBody.getBackground().setColorFilter(colorLine, PorterDuff.Mode.SRC_ATOP);
+                    btnTweet.setEnabled(true);
                 }
             }
 
@@ -127,14 +135,11 @@ public class ComposeFragment extends DialogFragment {
                 // Fires right after the text has changed
             }
         });
-        setupButtons(view);
+        setupButtons();
     }
 
-    private void setupButtons(View view) {
-        Button btnSave = (Button) view.findViewById(R.id.btnTweet);
-        ImageButton btnCancel = (ImageButton) view.findViewById(R.id.btnCancel);
-
-        btnSave.setOnClickListener(v -> {
+    private void setupButtons() {
+        this.btnTweet.setOnClickListener(v -> {
             String tweetBody = etBody.getText().toString();
             TwitterClient client = TwitterApplication.getRestClient();
             client.postUpdate(tweetBody, new JsonHttpResponseHandler() {
@@ -152,7 +157,8 @@ public class ComposeFragment extends DialogFragment {
             dismiss();
         });
 
-        btnCancel.setOnClickListener(v -> dismiss());
+        // TODO: prompt to save draft
+        this.btnCancel.setOnClickListener(v -> dismiss());
     }
 
     @Override

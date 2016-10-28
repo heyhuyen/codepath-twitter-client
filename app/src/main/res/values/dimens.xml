@@ -7,4 +7,5 @@
     <dimen name="profile_pic_size">50dp</dimen>
     <dimen name="profile_pic_padding">10dp</dimen>
     <dimen name="margin">5dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

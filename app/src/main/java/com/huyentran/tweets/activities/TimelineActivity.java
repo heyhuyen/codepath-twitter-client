@@ -1,5 +1,6 @@
 package com.huyentran.tweets.activities;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.huyentran.tweets.db.MyDatabase;
 import com.huyentran.tweets.R;
@@ -90,8 +92,13 @@ public class TimelineActivity extends AppCompatActivity
                 R.color.black,
                 android.R.color.holo_orange_light);
 
+        // internet snackbar
         this.snackbar = Snackbar.make(this.rvTweets, R.string.error_internet,
                 Snackbar.LENGTH_INDEFINITE);
+
+        // compose floating action button
+        FloatingActionButton fabCompose = (FloatingActionButton) findViewById(R.id.fabCompose);
+        fabCompose.setOnClickListener(v -> launchCompose());
     }
 
     private void getAuthenticatedUser() {
@@ -147,7 +154,7 @@ public class TimelineActivity extends AppCompatActivity
      * Sends an async request to fetch tweets for the authenticated user's home timeline
      */
     private void populateTimeline(long maxId) {
-        Log.d("DEBUG", String.format("populateTimeline with maxId: %d" + maxId));
+        Log.d("DEBUG", String.format("populateTimeline with maxId: %d", maxId));
         if (maxId < 0) {
             Log.d("DEBUG", "Clearing tweets...");
             this.tweets.clear();
@@ -211,9 +218,9 @@ public class TimelineActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.miCompose) {
-            launchCompose();
-        }
+//        if (id == R.id.miCompose) {
+//            launchCompose();
+//        }
 
         return super.onOptionsItemSelected(item);
     }
