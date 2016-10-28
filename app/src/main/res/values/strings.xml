@@ -9,6 +9,7 @@
     <!-- Timeline -->
     <string name="title_activity_timeline">Home Timeline</string>
     <string name="action_compose">Compose</string>
+    <string name="error_internet">No internet connection.</string>
 
     <!-- Compose -->
     <string name="compose_title">New Tweet</string>

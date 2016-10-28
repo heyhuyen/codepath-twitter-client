@@ -9,6 +9,8 @@ import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import java.io.IOException;
+
 public class TwitterClient extends OAuthBaseClient {
     public static final Class<? extends Api> REST_API_CLASS = TwitterApi.class;
     public static final String REST_URL = "https://api.twitter.com/1.1";
@@ -24,35 +26,77 @@ public class TwitterClient extends OAuthBaseClient {
 
     private static final String API_COMPOSE = "statuses/update.json";
 
+    private TwitterClientListener listener;
+
+    public interface TwitterClientListener {
+        void onInternetConnected();
+        void onInternetDisconnected();
+    }
+
     public TwitterClient(Context context) {
         super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
     }
 
+    public void registerListener(TwitterClientListener listener) {
+        this.listener = listener;
+    }
+
     public void getAuthenticatedUser(AsyncHttpResponseHandler handler) {
-        String apiUrl = getApiUrl(API_VERIFY_CREDS);
-        RequestParams params = new RequestParams();
-        params.put("include_entities", false);
-        params.put("skip_status", true);
-        params.put("include_email", false);
-        this.client.get(apiUrl, params, handler);
+        if (!isOnline()) {
+            this.listener.onInternetDisconnected();
+        } else {
+            this.listener.onInternetConnected();
+            String apiUrl = getApiUrl(API_VERIFY_CREDS);
+            RequestParams params = new RequestParams();
+            params.put("include_entities", false);
+            params.put("skip_status", true);
+            params.put("include_email", false);
+            this.client.get(apiUrl, params, handler);
+        }
     }
 
     public void getHomeTimeline(long maxId, AsyncHttpResponseHandler handler) {
-        String apiUrl = getApiUrl(API_HOME_TIMELINE);
-        RequestParams params = new RequestParams();
-        params.put("count", DEFAULT_COUNT);
-        params.put("since_id", DEFAULT_SINCE_ID);
-        if (maxId > 0) {
-            params.put("max_id", maxId);
+        if (!isOnline()) {
+            this.listener.onInternetDisconnected();
+        } else {
+            this.listener.onInternetConnected();
+            String apiUrl = getApiUrl(API_HOME_TIMELINE);
+            RequestParams params = new RequestParams();
+            params.put("count", DEFAULT_COUNT);
+            params.put("since_id", DEFAULT_SINCE_ID);
+            if (maxId > 0) {
+                params.put("max_id", maxId);
+            }
+            this.client.get(apiUrl, params, handler);
         }
-        this.client.get(apiUrl, params, handler);
     }
 
     public void postUpdate(String body, AsyncHttpResponseHandler handler) {
-        String apiUrl = getApiUrl(API_COMPOSE);
-        RequestParams params = new RequestParams();
-        params.put("status", body);
-        this.client.post(apiUrl, params, handler);
+        if (!isOnline()) {
+            this.listener.onInternetDisconnected();
+        } else {
+            this.listener.onInternetConnected();
+            String apiUrl = getApiUrl(API_COMPOSE);
+            RequestParams params = new RequestParams();
+            params.put("status", body);
+            this.client.post(apiUrl, params, handler);
+        }
+    }
+
+    private boolean isOnline() {
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+            int     exitValue = ipProcess.waitFor();
+            if (exitValue == 0) {
+                // online
+                return true;
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        // offline
+        return false;
     }
 
 }

@@ -1,18 +1,36 @@
 package com.huyentran.tweets.models;
 
+import com.huyentran.tweets.db.MyDatabase;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.annotation.Unique;
+import com.raizlabs.android.dbflow.structure.BaseModel;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
 
+import static android.R.attr.id;
+
 /**
  * User model.
  */
-@Parcel
-public class User {
+@Table(database = MyDatabase.class)
+@Parcel(analyze={User.class})
+public class User extends BaseModel {
 
+    @Column
+    @PrimaryKey
     private long uid;
+
+    @Column
     private String name;
+
+    @Column
     private String screenName;
+
+    @Column
     private String profileImageUrl;
 
     public User() {
@@ -46,5 +64,21 @@ public class User {
 
     public String getProfileImageUrl() {
         return this.profileImageUrl;
+    }
+
+    public void setUid(long uid) {
+        this.uid = uid;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setScreenName(String screenName) {
+        this.screenName = screenName;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 }

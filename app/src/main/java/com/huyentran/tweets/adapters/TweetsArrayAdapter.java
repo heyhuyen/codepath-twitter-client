@@ -72,6 +72,7 @@ public class TweetsArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         String profilePicUrl = user.getProfileImageUrl();
         if (!TextUtils.isEmpty(profilePicUrl)) {
             Glide.with(getContext()).load(profilePicUrl)
+                    .placeholder(R.drawable.icon_cancel)
                     .centerCrop()
                     .bitmapTransform(new RoundedCornersTransformation(this.mContext, 5, 0))
                     .into(ivProfilePic);

@@ -66,13 +66,13 @@ public class TweetDateUtils {
      */
     public static String relativeDuration(long millis) {
         if (millis >= HOUR_IN_MILLIS) {
-            final int hours = (int) ((millis + 1800000) / HOUR_IN_MILLIS);
+            final int hours = Math.round(millis / HOUR_IN_MILLIS);
             return String.format(Locale.ENGLISH, HOUR_FORMAT, hours);
         } else if (millis >= MINUTE_IN_MILLIS) {
-            final int minutes = (int) ((millis + 30000) / MINUTE_IN_MILLIS);
+            final int minutes = Math.round(millis / MINUTE_IN_MILLIS);
             return String.format(Locale.ENGLISH, MINUTE_FORMAT, minutes);
         } else {
-            final int seconds = (int) ((millis + 500) / SECOND_IN_MILLIS);
+            final int seconds = Math.round(millis / SECOND_IN_MILLIS);
             return String.format(Locale.ENGLISH, SECOND_FORMAT, seconds);
         }
     }
