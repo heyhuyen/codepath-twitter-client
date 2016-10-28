@@ -4,7 +4,6 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,13 +14,12 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.huyentran.tweets.R;
 import com.huyentran.tweets.TwitterApplication;
 import com.huyentran.tweets.TwitterClient;
+import com.huyentran.tweets.databinding.FragmentComposeBinding;
 import com.huyentran.tweets.models.Tweet;
 import com.huyentran.tweets.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -30,9 +28,6 @@ import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
-
-import static com.huyentran.tweets.R.id.btnCancel;
 
 /**
  * Modal overlay for composing tweets.
@@ -41,6 +36,7 @@ public class ComposeFragment extends DialogFragment {
 
     private static final int MAX_CHAR_COUNT = 140;
 
+    private FragmentComposeBinding binding;
     private User user;
     private EditText etBody;
     private TextView tvCharCount;
@@ -69,8 +65,10 @@ public class ComposeFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_compose, container);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-
+        this.binding = FragmentComposeBinding.bind(view);
         this.user = Parcels.unwrap(getArguments().getParcelable("user"));
+        this.binding.setUser(user);
+        this.binding.executePendingBindings();
         this.listener = (ComposeFragmentListener) getActivity();
         setupViews(view);
         return view;
@@ -80,23 +78,11 @@ public class ComposeFragment extends DialogFragment {
      * Wiring and setup of view and view-related components.
      */
     private void setupViews(View view) {
-        ImageView ivProfilePic = (ImageView) view.findViewById(R.id.ivProfilePic);
-        TextView tvUserName = (TextView) view.findViewById(R.id.tvUserName);
-        TextView tvScreenName = (TextView) view.findViewById(R.id.tvScreenName);
-        ivProfilePic.setImageResource(0);
-        String profilePicUrl = this.user.getProfileImageUrl();
-        if (!TextUtils.isEmpty(profilePicUrl)) {
-            Glide.with(getContext()).load(profilePicUrl)
-                    .centerCrop()
-                    .bitmapTransform(new RoundedCornersTransformation(getContext(), 5, 0))
-                    .into(ivProfilePic);
-        }
-        tvUserName.setText(this.user.getName());
-        tvScreenName.setText(this.user.getScreenName());
-        this.etBody = (EditText) view.findViewById(R.id.etBody);
-        this.tvCharCount = (TextView) view.findViewById(R.id.tvCharCount);
-        this.btnTweet = (Button) view.findViewById(R.id.btnTweet);
-        this.btnCancel = (ImageButton) view.findViewById(R.id.btnCancel);
+        this.etBody = this.binding.etBody;
+        this.tvCharCount = this.binding.tvCharCount;
+        this.btnTweet = this.binding.btnTweet;
+        this.btnCancel = this.binding.btnCancel;
+
         this.etBody.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {

@@ -16,5 +16,7 @@
     <string name="tweet">Tweet</string>
     <string name="tweet_hint">What\'s happening?</string>
     <string name="char_max">140</string>
+    <string name="cancel">cancel</string>
+    <string name="profile_pic_description">profile picture</string>
 
 </resources>

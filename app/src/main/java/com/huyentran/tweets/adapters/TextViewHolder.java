@@ -5,12 +5,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.huyentran.tweets.R;
+import com.huyentran.tweets.databinding.ItemTweetBinding;
 
 /**
  * ViewHolder class for text only tweets.
  */
 public class TextViewHolder extends RecyclerView.ViewHolder {
+    final ItemTweetBinding binding;
     private ImageView ivProfilePic;
     private TextView tvUserName;
     private TextView tvScreenName;
@@ -19,11 +20,12 @@ public class TextViewHolder extends RecyclerView.ViewHolder {
 
     public TextViewHolder(View itemView) {
         super(itemView);
-        this.ivProfilePic = (ImageView) itemView.findViewById(R.id.ivProfilePic);
-        this.tvUserName = (TextView) itemView.findViewById(R.id.tvUserName);
-        this.tvScreenName = (TextView) itemView.findViewById(R.id.tvScreenName);
-        this.tvTime = (TextView) itemView.findViewById(R.id.tvTime);
-        this.tvBody = (TextView) itemView.findViewById(R.id.tvBody);
+        this.binding = ItemTweetBinding.bind(itemView);
+        this.ivProfilePic = this.binding.ivProfilePic;
+        this.tvUserName = this.binding.tvUserName;
+        this.tvScreenName = this.binding.tvScreenName;
+        this.tvTime = this.binding.tvTime;
+        this.tvBody = this.binding.tvBody;
     }
 
     public ImageView getIvProfilePic() {

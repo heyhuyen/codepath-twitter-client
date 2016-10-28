@@ -1,65 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/ivProfilePic"
-        android:layout_width="@dimen/profile_pic_size"
-        android:layout_height="@dimen/profile_pic_size"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:padding="@dimen/profile_pic_padding"
-        android:layout_marginRight="@dimen/margin"
-        android:layout_marginEnd="@dimen/margin"
-        tools:src="@drawable/ic_launcher"/>
+    <data>
+        <variable name="tweet" type="com.huyentran.tweets.models.Tweet"/>
+        <variable name="user" type="com.huyentran.tweets.models.User"/>
+    </data>
 
-    <TextView
-        android:id="@+id/tvUserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/ivProfilePic"
-        android:layout_toEndOf="@+id/ivProfilePic"
-        android:layout_marginRight="@dimen/margin"
-        android:layout_marginEnd="@dimen/margin"
-        android:textStyle="bold"
-        tools:text="User Name"/>
+    <RelativeLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvScreenName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/tvUserName"
-        android:layout_toEndOf="@+id/tvUserName"
-        android:layout_marginRight="@dimen/margin"
-        android:layout_marginEnd="@dimen/margin"
-        android:textStyle="italic"
-        android:textColor="@color/colorTextSecondary"
-        tools:text="\@screenname"/>
+        <ImageView
+            android:id="@+id/ivProfilePic"
+            android:layout_width="@dimen/profile_pic_size"
+            android:layout_height="@dimen/profile_pic_size"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:padding="@dimen/profile_pic_padding"
+            android:layout_marginRight="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin"
+            app:imageUrl="@{user.profileImageUrl}"
+            android:contentDescription="@string/profile_pic_description"/>
 
-    <TextView
-        android:id="@+id/tvTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textColor="@color/colorTextSecondary"
-        tools:text="7h"/>
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/ivProfilePic"
+            android:layout_toEndOf="@+id/ivProfilePic"
+            android:layout_marginRight="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin"
+            android:textStyle="bold"
+            android:text="@{user.name}"/>
 
-    <TextView
-        android:id="@+id/tvBody"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/ivProfilePic"
-        android:layout_toEndOf="@+id/tvUserName"
-        android:layout_below="@id/tvUserName"
-        android:autoLink="all"
-        android:linksClickable="true"
-        tools:text="tweet tweet tweet tweet"/>
+        <TextView
+            android:id="@+id/tvScreenName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tvUserName"
+            android:layout_toEndOf="@+id/tvUserName"
+            android:layout_marginRight="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin"
+            android:textStyle="italic"
+            android:textColor="@color/colorTextSecondary"
+            android:text="@{user.screenName}"/>
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/colorTextSecondary"
+            tools:text="7h"/>
+
+        <TextView
+            android:id="@+id/tvBody"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/ivProfilePic"
+            android:layout_toEndOf="@+id/tvUserName"
+            android:layout_below="@id/tvUserName"
+            android:autoLink="all"
+            android:linksClickable="true"
+            android:text="@{tweet.body}"/>
+
+    </RelativeLayout>
+
+</layout>
