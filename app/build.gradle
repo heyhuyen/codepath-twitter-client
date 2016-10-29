@@ -3,6 +3,8 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
+    dataBinding.enabled = true
+
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
 
@@ -30,8 +32,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    dataBinding.enabled = true
 }
 
 repositories {

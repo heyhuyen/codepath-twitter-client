@@ -23,17 +23,17 @@ public class Tweet extends BaseModel {
 
     @Column
     @PrimaryKey
-    private long uid;
+    long uid;
 
     @Column
-    private String body;
+    String body;
 
     @Column
-    private String createdAt;
+    String createdAt;
 
     @Column
     @ForeignKey
-    private User user;
+    User user;
 
     public Tweet() {
         // empty constructor for Parceler

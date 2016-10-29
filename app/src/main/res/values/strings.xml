@@ -7,7 +7,7 @@
     <string name="login_label">Connect to Twitter</string>
 
     <!-- Timeline -->
-    <string name="title_activity_timeline">Home Timeline</string>
+    <string name="title_activity_timeline">Home</string>
     <string name="action_compose">Compose</string>
     <string name="error_internet">No internet connection.</string>
 
@@ -17,6 +17,13 @@
     <string name="tweet_hint">What\'s happening?</string>
     <string name="char_max">140</string>
     <string name="cancel">cancel</string>
-    <string name="profile_pic_description">profile picture</string>
+    <string name="profile_pic_description">Profile picture</string>
+    <string name="drafts_description">Saved drafts</string>
+    <string name="save_draft">Save draft?</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+
+    <!-- Drafts -->
+    <string name="title_activity_drafts">Drafts</string>
 
 </resources>

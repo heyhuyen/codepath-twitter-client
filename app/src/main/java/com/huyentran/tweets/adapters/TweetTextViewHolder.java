@@ -10,7 +10,7 @@ import com.huyentran.tweets.databinding.ItemTweetBinding;
 /**
  * ViewHolder class for text only tweets.
  */
-public class TextViewHolder extends RecyclerView.ViewHolder {
+public class TweetTextViewHolder extends RecyclerView.ViewHolder {
     final ItemTweetBinding binding;
     private ImageView ivProfilePic;
     private TextView tvUserName;
@@ -18,7 +18,7 @@ public class TextViewHolder extends RecyclerView.ViewHolder {
     private TextView tvTime;
     private TextView tvBody;
 
-    public TextViewHolder(View itemView) {
+    public TweetTextViewHolder(View itemView) {
         super(itemView);
         this.binding = ItemTweetBinding.bind(itemView);
         this.ivProfilePic = this.binding.ivProfilePic;

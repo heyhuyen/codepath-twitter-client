@@ -11,7 +11,9 @@
     <RelativeLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="@dimen/tweet_padding"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/ivProfilePic"
@@ -47,6 +49,7 @@
             android:layout_marginRight="@dimen/margin"
             android:layout_marginEnd="@dimen/margin"
             android:textStyle="italic"
+            android:textSize="@dimen/secondary_text_size"
             android:textColor="@color/colorTextSecondary"
             android:text="@{user.screenName}"/>
 
@@ -57,6 +60,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:textSize="@dimen/secondary_text_size"
             android:textColor="@color/colorTextSecondary"
             tools:text="7h"/>
 

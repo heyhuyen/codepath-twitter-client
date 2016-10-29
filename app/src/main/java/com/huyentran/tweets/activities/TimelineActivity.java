@@ -1,8 +1,10 @@
 package com.huyentran.tweets.activities;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,16 +23,21 @@ import com.huyentran.tweets.TwitterClient;
 import com.huyentran.tweets.adapters.TweetsArrayAdapter;
 import com.huyentran.tweets.fragment.ComposeFragment;
 import com.huyentran.tweets.models.Tweet;
+import com.huyentran.tweets.models.TweetDraft;
 import com.huyentran.tweets.models.Tweet_Table;
 import com.huyentran.tweets.models.User;
+import com.huyentran.tweets.utils.Constants;
+import com.huyentran.tweets.utils.DividerItemDecoration;
 import com.huyentran.tweets.utils.EndlessRecyclerViewScrollListener;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.database.transaction.ProcessModelTransaction;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +54,7 @@ public class TimelineActivity extends AppCompatActivity
     private RecyclerView rvTweets;
     private SwipeRefreshLayout swipeContainer;
     private Snackbar snackbar;
+    private FloatingActionButton fabCompose;
 
     private User user;
     private long curMaxId;
@@ -81,6 +89,9 @@ public class TimelineActivity extends AppCompatActivity
                 populateTimeline(curMaxId);
             }
         });
+        RecyclerView.ItemDecoration itemDecoration = new
+                DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
+        this.rvTweets.addItemDecoration(itemDecoration);
 
         // pull to refresh swipe container
         this.swipeContainer = this.binding.swipeContainer;
@@ -90,17 +101,18 @@ public class TimelineActivity extends AppCompatActivity
             populateTimeline(this.curMaxId);
         });
         this.swipeContainer.setColorSchemeResources(
-                R.color.blue,
+                R.color.curiousBlue,
                 R.color.black,
-                android.R.color.holo_orange_light);
+                R.color.darkGray);
 
         // internet snackbar
         this.snackbar = Snackbar.make(this.rvTweets, R.string.error_internet,
                 Snackbar.LENGTH_INDEFINITE);
 
         // compose floating action button
-        FloatingActionButton fabCompose = this.binding.fabCompose;
-        fabCompose.setOnClickListener(v -> launchCompose());
+        this.fabCompose = this.binding.fabCompose;
+        this.fabCompose.setEnabled(false);
+        this.fabCompose.setOnClickListener(v -> launchCompose());
     }
 
     private void getAuthenticatedUser() {
@@ -110,6 +122,7 @@ public class TimelineActivity extends AppCompatActivity
                 Log.d("DEBUG",
                         String.format("getAuthenticatedUser success: %s", response.toString()));
                 user = User.fromJson(response);
+                fabCompose.setEnabled(true);
             }
 
             @Override
@@ -136,7 +149,7 @@ public class TimelineActivity extends AppCompatActivity
             Log.d("DEBUG", "No saved tweets. Fetching fresh tweets from API");
             populateTimeline(this.curMaxId);
         } else {
-            Log.d("DEBUG", String.format("Loading %d saved tweets)", savedTweets.size()));
+            Log.d("DEBUG", String.format("Loading %d saved tweets", savedTweets.size()));
             appendTweets(savedTweets);
         }
     }
@@ -149,7 +162,8 @@ public class TimelineActivity extends AppCompatActivity
         this.tweetsAdapter.notifyDataSetChanged();
         this.curMaxId = tweets.get(tweets.size() - 1).getUid();
         Log.d("DEBUG",
-                String.format("%d tweets appended. New maxId: %d", tweets.size(), this.curMaxId));
+                String.format("%d tweets appended. Total tweets: %d. New maxId: %d",
+                        tweets.size(), this.tweets.size(), this.curMaxId));
     }
 
     /**
@@ -159,6 +173,7 @@ public class TimelineActivity extends AppCompatActivity
         Log.d("DEBUG", String.format("populateTimeline with maxId: %d", maxId));
         if (maxId < 0) {
             Log.d("DEBUG", "Clearing tweets...");
+            Delete.tables(Tweet.class);
             this.tweets.clear();
         }
 
@@ -231,11 +246,13 @@ public class TimelineActivity extends AppCompatActivity
      * Launches {@link com.huyentran.tweets.fragment.ComposeFragment} modal overlay.
      */
     private void launchCompose() {
-        // TODO: check that the user is not null
+        // fetch drafts
+        List<TweetDraft> drafts = SQLite.select().from(TweetDraft.class).queryList();
+        Log.d("DEBUG", String.format("Loaded %d drafts from db", drafts.size()));
         ComposeFragment composeDialogFragment =
-                ComposeFragment.newInstance(this.user);
-//        composeDialogFragment.setStyle(
-//                DialogFragment.STYLE_NORMAL, R.style.AppDialogTheme);
+                ComposeFragment.newInstance(this.user, drafts);
+        composeDialogFragment.setStyle(
+                DialogFragment.STYLE_NORMAL, R.style.Dialog_FullScreen);
         composeDialogFragment.show(getSupportFragmentManager(), "composeDialogFragment");
     }
 
@@ -255,6 +272,18 @@ public class TimelineActivity extends AppCompatActivity
         this.snackbar.show();
         if (this.swipeContainer.isRefreshing()) {
             this.swipeContainer.setRefreshing(false);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == Constants.DRAFT_REQUEST_CODE) {
+            TweetDraft selectedDraft = Parcels.unwrap(data.getParcelableExtra("draft"));
+            Log.d("DEBUG", String.format("Received draft [%d]: %s",
+                    selectedDraft.getId(), selectedDraft.getBody()));
+            ComposeFragment fragment = (ComposeFragment) getSupportFragmentManager()
+                    .findFragmentByTag("composeDialogFragment");
+            fragment.loadDraft(selectedDraft);
         }
     }
 }

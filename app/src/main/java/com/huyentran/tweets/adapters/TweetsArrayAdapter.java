@@ -15,7 +15,7 @@ import com.huyentran.tweets.utils.TweetDateUtils;
 import java.util.List;
 
 /**
- * Array Adapter that takes {@link Tweet} objects and turns them into views to display in a list.
+ * Custom adapter that takes {@link Tweet} objects and turns them into views to display in a list.
  */
 public class TweetsArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -41,7 +41,7 @@ public class TweetsArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         switch (viewType) {
             default:
                 View defaultView = inflater.inflate(R.layout.item_tweet, parent, false);
-                viewHolder = new TextViewHolder(defaultView);
+                viewHolder = new TweetTextViewHolder(defaultView);
                 break;
         }
         return viewHolder;
@@ -52,13 +52,13 @@ public class TweetsArrayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         switch (viewHolder.getItemViewType()) {
             default:
-                TextViewHolder vh = (TextViewHolder) viewHolder;
+                TweetTextViewHolder vh = (TweetTextViewHolder) viewHolder;
                 configureTextViewHolder(vh, position);
                 break;
         }
     }
 
-    private void configureTextViewHolder(TextViewHolder viewHolder, int position) {
+    private void configureTextViewHolder(TweetTextViewHolder viewHolder, int position) {
         Tweet tweet = this.mTweets.get(position);
         User user = tweet.getUser();
         viewHolder.binding.setTweet(tweet);

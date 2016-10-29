@@ -22,16 +22,16 @@ public class User extends BaseModel {
 
     @Column
     @PrimaryKey
-    private long uid;
+    long uid;
 
     @Column
-    private String name;
+    String name;
 
     @Column
-    private String screenName;
+    String screenName;
 
     @Column
-    private String profileImageUrl;
+    String profileImageUrl;
 
     public User() {
         // empty constructor for Parceler
