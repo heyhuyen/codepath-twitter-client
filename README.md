@@ -1,6 +1,6 @@
-# Project 3 - *Name of App Here*
+# Project 3 - Tweety Bird
 
-**Name of your app** is an android app that allows a user to view his Twitter timeline and post a new tweet. The app utilizes [Twitter REST API](https://dev.twitter.com/rest/public).
+Tweety Bird is an android app that allows a user to view his Twitter timeline and post a new tweet. The app utilizes [Twitter REST API](https://dev.twitter.com/rest/public).
 
 Time spent: 18 hours spent in total
 
@@ -51,9 +51,9 @@ The following **additional** features are implemented:
 
 ## Video Walkthrough
 
-Here's a walkthrough of implemented user stories:
+Here's a link to a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+http://imgur.com/Z3hDLzF.gif
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
