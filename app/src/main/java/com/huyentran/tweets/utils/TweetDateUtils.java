@@ -16,6 +16,7 @@ import static android.text.format.DateUtils.YEAR_IN_MILLIS;
  */
 public class TweetDateUtils {
     private static final String TWITTER_FORMAT = "EEE MMM dd HH:mm:ss ZZZZZ yyyy"; //"Mon Apr 01 21:16:23 +0000 2014"
+    private static final String DETAIL_DATE_FORMAT = "HH:mm a - dd MMM yy";
     private static final String SECOND_FORMAT = "%ds";
     private static final String MINUTE_FORMAT = "%dm";
     private static final String HOUR_FORMAT = "%dh";
@@ -75,6 +76,23 @@ public class TweetDateUtils {
             final int seconds = Math.round(millis / SECOND_IN_MILLIS);
             return String.format(Locale.ENGLISH, SECOND_FORMAT, seconds);
         }
+    }
+
+    public static String getDetailDateFormat(String twitterDate) {
+        SimpleDateFormat twitterFormat = new SimpleDateFormat(TWITTER_FORMAT, Locale.ENGLISH);
+        twitterFormat.setLenient(true);
+
+        SimpleDateFormat detailFormat = new SimpleDateFormat(DETAIL_DATE_FORMAT, Locale.ENGLISH);
+        detailFormat.setLenient(true);
+
+        String result = "";
+        try {
+            Date date = twitterFormat.parse(twitterDate);
+            result = detailFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 }

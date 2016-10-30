@@ -26,4 +26,7 @@
     <!-- Drafts -->
     <string name="title_activity_drafts">Drafts</string>
 
+    <!-- Tweet Detail -->
+    <string name="title_activity_tweet_detail">Tweet</string>
+
 </resources>

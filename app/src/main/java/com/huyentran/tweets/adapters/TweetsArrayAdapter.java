@@ -7,15 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
 import com.huyentran.tweets.R;
 import com.huyentran.tweets.models.Tweet;
 import com.huyentran.tweets.utils.TweetDateUtils;
 
 import java.util.List;
-
-import static com.google.common.collect.Iterables.toArray;
 
 /**
  * Custom adapter that takes {@link Tweet} objects and turns them into views to display in a list.

@@ -29,6 +29,7 @@ import com.huyentran.tweets.models.User;
 import com.huyentran.tweets.utils.Constants;
 import com.huyentran.tweets.utils.DividerItemDecoration;
 import com.huyentran.tweets.utils.EndlessRecyclerViewScrollListener;
+import com.huyentran.tweets.utils.ItemClickSupport;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.Delete;
@@ -89,6 +90,14 @@ public class TimelineActivity extends AppCompatActivity
                 populateTimeline(curMaxId);
             }
         });
+        ItemClickSupport.addTo(this.rvTweets).setOnItemClickListener(
+                (recyclerView, position, v) -> {
+                    Tweet tweet = tweets.get(position);
+                    Log.d("DEBUG", String.format("Tweet selected: [%d] %s",
+                            tweet.getUid(), tweet.getBody()));
+                    launchDetailActivity(tweet);
+                }
+        );
         RecyclerView.ItemDecoration itemDecoration = new
                 DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
         this.rvTweets.addItemDecoration(itemDecoration);
@@ -265,17 +274,11 @@ public class TimelineActivity extends AppCompatActivity
         this.tweetsAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onInternetConnected() {
-        this.snackbar.dismiss();
-    }
-
-    @Override
-    public void onInternetDisconnected() {
-        this.snackbar.show();
-        if (this.swipeContainer.isRefreshing()) {
-            this.swipeContainer.setRefreshing(false);
-        }
+    private void launchDetailActivity(Tweet tweet) {
+        Log.d("DEBUG", "Launch TweetDetailActivity");
+        Intent intent = new Intent(TimelineActivity.this, TweetDetailActivity.class);
+        intent.putExtra("tweet", Parcels.wrap(tweet));
+        startActivity(intent);
     }
 
     @Override
@@ -287,6 +290,19 @@ public class TimelineActivity extends AppCompatActivity
             ComposeFragment fragment = (ComposeFragment) getSupportFragmentManager()
                     .findFragmentByTag("composeDialogFragment");
             fragment.loadDraft(selectedDraft);
+        }
+    }
+
+    @Override
+    public void onInternetConnected() {
+        this.snackbar.dismiss();
+    }
+
+    @Override
+    public void onInternetDisconnected() {
+        this.snackbar.show();
+        if (this.swipeContainer.isRefreshing()) {
+            this.swipeContainer.setRefreshing(false);
         }
     }
 }

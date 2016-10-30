@@ -85,8 +85,7 @@
             android:layout_alignStart="@id/tvUserName"
             android:layout_alignLeft="@id/tvUserName"
             android:layout_marginTop="@dimen/margin"
-            app:imageUrl="@{media.mediaUrl}"
-            android:adjustViewBounds="false"/>
+            app:imageUrl="@{media.mediaUrl}"/>
 
         <LinearLayout
             android:id="@+id/iconRow"
