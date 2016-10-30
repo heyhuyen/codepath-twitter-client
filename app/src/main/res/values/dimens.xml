@@ -13,6 +13,7 @@
     <dimen name="profile_pic_size">50dp</dimen>
     <dimen name="profile_pic_padding">5dp</dimen>
     <dimen name="secondary_text_size">12sp</dimen>
+    <dimen name="icon_row_margin">50dp</dimen>
 
     <!-- Text Button -->
     <dimen name="button_text_size">16sp</dimen>

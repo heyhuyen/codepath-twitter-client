@@ -18,7 +18,7 @@ public class BindingAdapterUtils {
         imageView.setImageResource(0);
         if (!TextUtils.isEmpty(imageUrl)) {
             Glide.with(imageView.getContext()).load(imageUrl)
-                    .placeholder(R.drawable.icon_compose)
+                    .placeholder(R.drawable.icon_like)
                     .centerCrop()
                     .bitmapTransform(new RoundedCornersTransformation(imageView.getContext(), 5, 0))
                     .into(imageView);

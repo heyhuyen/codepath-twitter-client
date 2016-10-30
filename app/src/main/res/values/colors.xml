@@ -6,7 +6,7 @@
     <color name="colorAccent">@color/blue</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorTextPrimary">@color/black</color>
-    <color name="colorTextSecondary">@color/darkGray</color>
+    <color name="colorTextSecondary">@color/lightGray</color>
     <color name="colorIcons">@color/blue</color>
     <color name="colorDivider">@color/black</color>
 
