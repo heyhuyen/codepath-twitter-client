@@ -77,12 +77,23 @@
             android:linksClickable="true"
             android:text="@{tweet.body}"/>
 
+        <ImageView
+            android:id="@+id/ivMediaPhoto"
+            android:layout_width="@dimen/media_width"
+            android:layout_height="@dimen/media_height"
+            android:layout_below="@+id/tvBody"
+            android:layout_alignStart="@id/tvUserName"
+            android:layout_alignLeft="@id/tvUserName"
+            android:layout_marginTop="@dimen/margin"
+            app:imageUrl="@{media.mediaUrl}"
+            android:adjustViewBounds="false"/>
+
         <LinearLayout
             android:id="@+id/iconRow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@+id/tvBody"
+            android:layout_below="@+id/ivMediaPhoto"
             android:layout_alignStart="@id/tvUserName"
             android:layout_alignLeft="@id/tvUserName"
             android:layout_marginTop="@dimen/margin"

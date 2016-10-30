@@ -173,7 +173,7 @@ public class TimelineActivity extends AppCompatActivity
         Log.d("DEBUG", String.format("populateTimeline with maxId: %d", maxId));
         if (maxId < 0) {
             Log.d("DEBUG", "Clearing tweets...");
-            Delete.tables(Tweet.class);
+            Delete.tables(Tweet.class); // save users and media
             this.tweets.clear();
         }
 
@@ -207,6 +207,9 @@ public class TimelineActivity extends AppCompatActivity
                             @Override
                             public void processModel(Tweet tweet) {
                                 tweet.getUser().save();
+                                if (tweet.getMedia() != null) {
+                                    tweet.getMedia().save();
+                                }
                                 tweet.save();
                             }
                         })

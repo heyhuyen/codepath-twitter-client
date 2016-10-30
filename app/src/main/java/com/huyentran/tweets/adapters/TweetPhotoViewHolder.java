@@ -5,22 +5,22 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.huyentran.tweets.databinding.ItemTweetBinding;
+import com.huyentran.tweets.databinding.ItemTweetPhotoBinding;
 
 /**
- * ViewHolder class for text only tweets.
+ * ViewHolder class for tweets with embedded photos.
  */
-public class TweetTextViewHolder extends RecyclerView.ViewHolder {
-    final ItemTweetBinding binding;
+public class TweetPhotoViewHolder extends RecyclerView.ViewHolder {
+    final ItemTweetPhotoBinding binding;
     private ImageView ivProfilePic;
     private TextView tvUserName;
     private TextView tvScreenName;
     private TextView tvTime;
     private TextView tvBody;
 
-    public TweetTextViewHolder(View itemView) {
+    public TweetPhotoViewHolder(View itemView) {
         super(itemView);
-        this.binding = ItemTweetBinding.bind(itemView);
+        this.binding = ItemTweetPhotoBinding.bind(itemView);
         this.ivProfilePic = this.binding.ivProfilePic;
         this.tvUserName = this.binding.tvUserName;
         this.tvScreenName = this.binding.tvScreenName;
@@ -68,3 +68,4 @@ public class TweetTextViewHolder extends RecyclerView.ViewHolder {
         this.tvBody = tvBody;
     }
 }
+

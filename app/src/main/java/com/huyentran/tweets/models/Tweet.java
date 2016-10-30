@@ -41,6 +41,10 @@ public class Tweet extends BaseModel {
     @Column
     int likeCount;
 
+    @Column
+    @ForeignKey
+    Media media;
+
     public Tweet() {
         // empty constructor for Parceler
     }
@@ -54,6 +58,12 @@ public class Tweet extends BaseModel {
             tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
             tweet.retweetCount = jsonObject.getInt("retweet_count");
             tweet.likeCount = jsonObject.getInt("favorite_count");
+
+            // get first media entity if one exists
+            JSONArray mediaArray = jsonObject.getJSONObject("entities").getJSONArray("media");
+            if (mediaArray != null && mediaArray.length() > 0) {
+                tweet.media = Media.fromJson(mediaArray.getJSONObject(0));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -101,6 +111,10 @@ public class Tweet extends BaseModel {
         return this.likeCount;
     }
 
+    public Media getMedia() {
+        return this.media;
+    }
+
     public void setUid(long uid) {
         this.uid = uid;
     }
@@ -123,5 +137,9 @@ public class Tweet extends BaseModel {
 
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
+    }
+
+    public void setMedia(Media media) {
+        this.media = media;
     }
 }

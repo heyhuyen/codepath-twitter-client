@@ -46,7 +46,7 @@ The following **bonus** features are implemented:
 * [x] When a user leaves the compose view without publishing and there is existing text, prompt to save or delete the draft.  The draft can be resumed from the compose view.
 
 The following **additional** features are implemented:
-
+* [x] User can see embedded image media within tweet item recycler view on home timeline
 * [x] Snackbar displayed when no internet available. Dismissed when any API request succeeds.
 
 ## Video Walkthrough
